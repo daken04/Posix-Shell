@@ -1,49 +1,90 @@
-# Interactive Shell Program README
+# Assignment 2: POSIX Shell Implementation
 
-## Overview
+## 1. Display requirement
 
-This project is an implementation of a user-defined interactive shell program designed to manage processes within a Unix-like operating system. It is developed in C/C++ and features a modular design that supports executing system commands (e.g., emacs, vi), managing foreground and background processes, and handling input/output redirections and pipes. The shell can interpret and execute commands entered by the user, distinguishing between built-in commands (like `cd`, `ls`, `pwd`, `echo`) and external system commands. It supports a variety of functionalities, including process management with background execution (`&` operator), command tokenization (using `strtok`), and advanced features like file search, I/O redirection, pipeline processing, and simple signal handling.
+### Description
 
-## Key Features
+Created C++ method that displays a command prompt similar to what you see in a Unix-like terminal. It includes the username, hostname, and current working directory. The prompt format is: username@hostname:~[relativePath]>, with [relativePath] being optional.
 
-- **Dynamic Prompt Display**: Shows the current user, system name, and working directory.
-- **Command Execution**: Supports both built-in commands (`cd`, `echo`, `pwd`, `ls`, `pinfo`, `search`) and external system commands, with support for foreground and background execution.
-- **Input/Output Redirection**: Handles redirection (`<`, `>`, `>>`) and pipelines (`|`), allowing for flexible command chaining and file management.
-- **Process Management**: Manages processes, allowing background execution and implementing simple signal handling (CTRL-Z, CTRL-C, CTRL-D).
-- **Autocomplete**: Offers tab completion for file and directory names in the current directory.
-- **Command History**: Maintains a history of executed commands, accessible via the `history` command or the UP arrow key for easy repetition and modification of previous commands.
+Infinite loop calls prompt() method each time to display a prompt.
 
-## Execution Instructions
+## 2. cd, echo, pwd:
 
-To compile and run the shell program on a Linux system, execute the following commands in the terminal:
+### Description
+
+- I implemented cd command which works similar to the cd command in Unix-like shells. It allows you to change the current working directory within a program. The function takes a vector of strings args as input and handles various directory navigation scenarios. implemented all the basic functionality, also implement the flags “.”, “..”, “-” and “~.
+- Implemented echo which works similar to the echo command in Unix-like shells. If string is enclosed into "" then it will print as it is otherwise spaces and tabs are handled.
+- Implemented a "Print Working Directory" (PWD) function that retrieves and displays the current working directory. The PWD function is similar to the pwd command in Unix-like systems.
+
+## 3. ls:
+
+### Description
+
+- Implemented "ls" command, which is commonly used to list directory contents in Unix-like operating systems. The code offers features for listing directory contents with various options, including showing hidden files (-a) and displaying detailed file information (-l). handled All the mentioned cases.
+
+## 4. System commands (background/fg), with and without arguments:
+
+### Description
+
+- Implemented executeBackgroundProcess(), for executing processes in the background or foreground, similar to how commands are run in a Unix-like shell. The code handles process creation, execution, and optionally running processes in the background.
+
+## 5. pinfo
+
+- Implemented printProcessInfo() method which utilizes proc filesystem to extracts and displays various pieces of information about a specified process.
+- pinfo(id) will print details of process with mentioned id.
+- Implemented pinfo will not run on mac as mac not supports proc filesystem.
+
+## 6. search
+
+- My search method searches for a specified file or folder under the current directory recursively. It returns True if the item exists and False if it doesn't.
+
+## 7. I/O redirection
+
+- Implemented input and output redirection using the symbols <, >, and >>. It allows you to redirect the output of commands to a file, read input from a file, or both.
+- ex: cat < example.txt
+
+## Approach
+
+- The shell parses the command line arguments to identify input and output redirection requests.
+- For input redirection (<), the shell reads from the specified file as input for the command.
+- For output redirection (> and >>), the shell creates or appends to the specified file and directs the command's output to that file.
+- The shell handles errors appropriately:
+  - Displays an error message if the input file does not exist.
+  - Creates the output file with permissions 0644 if it doesn't exist for > and appends to it for >>.
+
+## 8. pipeline
+
+- Implemented pipeline for execution commands that are present in pipe command.
+
+## Approach
+
+- executeCommand(): Executes a single shell command. It handles forking a child process, setting up input/output redirection, and executing the command. It also supports optional input/output redirection.
+
+- executePipes(): Executes a sequence of shell commands separated by pipes ('|'). It creates pipes to connect the commands, tokenizes each command, and invokes executeCommand for each command in the sequence, handling input/output redirection and piping between them.
+- ex: cat sample2.txt | head -7 | tail -5
+
+- Overall, these functions enable the execution of a series of shell commands with pipes and optional input/output redirection in a C++ program.
+
+## 10. Simple signals
+
+- handled CTRL-D, CTRL-Z and CTRL-C using signal command.
+
+## 12. BONUS: history
+
+- Implemented history functionality for the commands. To maintain history across the different sessions I stored it in file.
+
+## Exit command
+
+- exit command will terminate the shell.
+
+## Compile the program:
 
 ```sh
-make -f Terminal.mk
-./Terminal
+make
 ```
 
-## Functionality Overview
+## Run the Program:
 
-### Built-in Functions
-
-- **Prompt**: Customizable prompt displaying the username, hostname, and current working directory.
-- **cd**: Changes the current directory, supporting `.`, `..`, `-`, and `~` flags.
-- **ls**: Lists directory contents, supporting `-a` and `-l` flags.
-- **pwd**: Prints the current working directory.
-- **echo**: Outputs the given string, handling spaces and tabs.
-- **pinfo**: Displays process information.
-- **search**: Recursively searches for files or directories.
-- **redirection & pipeline**: Implements input and output redirection, along with command pipelines.
-- **signals**: Handles CTRL-Z, CTRL-C, and CTRL-D signals.
-- **autocomplete**: Autocompletes file and directory names.
-- **foreground and background processing**: Manages foreground and background tasks, including process ID display for background tasks.
-
-## Assumptions
-
-- The directory where the program is invoked is considered the HOME directory.
-- For autocomplete functionality, ensure to press enter after using the tab for completion.
-
-## Contributing
-
-Contributions to the project are welcome. Please follow the standard GitHub pull request process to submit your enhancements or fixes.
-
+```sh
+./a.out
+```
