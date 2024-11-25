@@ -23,6 +23,9 @@ Infinite loop calls prompt() method each time to display a prompt.
 - Implemented "ls" command, which is commonly used to list directory contents in Unix-like operating systems. The code offers features for listing directory contents with various options, including showing hidden files (-a) and displaying detailed file information (-l). handled All the mentioned cases.
 
 ## 4. System commands (background/fg), with and without arguments:
+- sleep 60 <- pauses the shell for 60 seconds
+- sleep 60 & <- background
+
 
 ### Description
 
@@ -65,11 +68,7 @@ Infinite loop calls prompt() method each time to display a prompt.
 
 - Overall, these functions enable the execution of a series of shell commands with pipes and optional input/output redirection in a C++ program.
 
-## 10. Simple signals
-
-- handled CTRL-D, CTRL-Z and CTRL-C using signal command.
-
-## 12. BONUS: history
+## 9. history
 
 - Implemented history functionality for the commands. To maintain history across the different sessions I stored it in file.
 

@@ -4,9 +4,6 @@ const char *SHELL_DIRECTORY_PATH = "";
 
 int main(int argc, char **argv)
 {
-    signal(SIGCHLD, SIG_IGN);
-    signal(SIGINT, handleCtrlC);
-    signal(SIGSTOP, handleCtrlZ);
     struct termios savedTermState;
     tcgetattr(STDIN_FILENO, &savedTermState);
 
